@@ -1,0 +1,24 @@
+{
+  "name": "pseudo-reddit",
+  "version": "0.1.0",
+  "description": "Simple reddit with topic posting and up-down voting.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vipulsodha/pseudo-reddit.git"
+  },
+  "keywords": [
+    "Reddit",
+    "simple",
+    "reddit"
+  ],
+  "author": "Vipul Sodha",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vipulsodha/pseudo-reddit/issues"
+  },
+  "homepage": "https://github.com/vipulsodha/pseudo-reddit#readme"
+}
