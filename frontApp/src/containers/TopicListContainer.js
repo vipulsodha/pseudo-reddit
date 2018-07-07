@@ -17,23 +17,68 @@ const styles = {
 class TopicListContainer extends Component {
 
     state = {
-        topics: [1,2,3,4,1,1,1,1,1,1,1]
+        topics: [{
+            title: 'Title',
+            author: 'Vipul',
+            upVotes: 100,
+            downVotes: 100,
+            createdTimeStamp: 1234,
+            topicId: 1
+        },
+        {
+            title: 'Title 1',
+            author: 'Vipul',
+            upVotes: 100,
+            downVotes: 100,
+            createdTimeStamp: 1234,
+            topicId: 2
+        },
+        {
+            title: 'Title 2',
+            author: 'Vipul',
+            upVotes: 100,
+            downVotes: 100,
+            createdTimeStamp: 1234,
+            topicId: 3
+        },
+        {
+            title: 'Title 3',
+            author: 'Vipul',
+            upVotes: 100,
+            downVotes: 100,
+            createdTimeStamp: 1234,
+            topicId: 4
+        },
+        {
+            title: 'Title 4',
+            author: 'Vipul',
+            upVotes: 100,
+            downVotes: 100,
+            createdTimeStamp: 1234,
+            topicId: 5
+        }]
     };
 
     componentDidMount() {
 
     }
 
+    handleUpVoteClick = (topicId) => {
+        console.log(topicId);
+    }
+
+    handleDownVoteClick = (topicId) => {
+        console.log(topicId);
+    }
+
     render() {
 
         return (
             <div style={styles.container}>
-                <TopicList topics={this.state.topics} />
+                <TopicList topics={this.state.topics} onUpVoteClick={this.handleUpVoteClick} onDownVoteClick={this.handleDownVoteClick} />
             </div>
         );
-
     }
-
 };
 
 export default TopicListContainer;

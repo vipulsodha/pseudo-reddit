@@ -9,16 +9,16 @@ import ReactDom from 'react-dom';
 
 import Topic from './Topic';
 
-const TopicList = ({topics}) => {
+const TopicList = ({topics, onUpVoteClick, onDownVoteClick}) => {
 
-    if (topics === undefined || topics === null || topics.lenght === 0) {
+    if (topics === undefined || topics === null || topics.length === 0) {
         return null;
     }
 
     return (
         <div>
             {
-                topics.map((topic) => <Topic {...topic}/>)
+                topics.map((topic) => <Topic {...topic} onUpVoteClick={onUpVoteClick} onDownVoteClick={onDownVoteClick} />)
             }
         </div>
     )

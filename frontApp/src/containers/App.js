@@ -12,7 +12,6 @@ class App extends Component {
     render() {
         return (<TopicListContainer/>);
     }
-
 };
 
 export default App;
