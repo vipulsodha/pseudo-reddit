@@ -5,7 +5,7 @@
 const Hapi = require('hapi');
 const serverConfig  = require('./config/serverConfig');
 const server = Hapi.server(serverConfig);
-
+const routes = require('./controllers/routes')
 
 /**
  * Calling this function will initialize the web server.
@@ -13,7 +13,7 @@ const server = Hapi.server(serverConfig);
  */
 const Init = async () => {
 
-
+    server.route(routes);
     await server.start();
 
     console.log(`Server running at: ${server.info.uri}`);
