@@ -5,14 +5,14 @@
 import React, { Component } from 'react';
 import ReactDom from 'react-dom';
 
+import TopicListContainer from '../containers/TopicListContainer';
 
-export default class App extends Component {
+class App extends Component {
 
     render() {
-        return <div>HelloWorld</div>;
+        return (<TopicListContainer/>);
     }
 
-}
+};
 
-
-
+export default App;

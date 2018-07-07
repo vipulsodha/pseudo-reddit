@@ -1,5 +1,6 @@
 /**
  * Created by vipulsodha on 07/07/18.
+ * Topic component, shows votes, topic title, etc
  */
 
 import React, { Component } from 'react';
@@ -39,7 +40,6 @@ const styles = {
 
 const Topic = (props) => {
     return (
-
         <div style={styles.topic}>
             <div style={styles.voteBox}> Vote</div>
             <div style={styles.contentBox}>
@@ -68,11 +68,7 @@ const Topic = (props) => {
                 </div>
             </div>
         </div>
-
     )
 };
 
-
 export default Topic;
-
-

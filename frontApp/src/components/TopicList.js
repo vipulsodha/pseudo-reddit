@@ -1,5 +1,6 @@
 /**
  * Created by vipulsodha on 07/07/18.
+ * This component wraps around the Topic component, takes topics list as prop
  */
 
 
@@ -23,6 +24,4 @@ const TopicList = ({topics}) => {
     )
 };
 
-
 export default TopicList;
-
