@@ -6,6 +6,8 @@
 import React, { Component } from 'react';
 import ReactDom from 'react-dom';
 
+import VoteButton from './VoteButton';
+
 const styles = {
     topic: {
         display: 'flex',
@@ -17,8 +19,11 @@ const styles = {
     },
     voteBox: {
         flex:1,
-        border: '1px solid black',
-        height:'100px'
+        display: 'flex',
+        border: '1px solid yellow',
+        alignItems: 'center',
+        justifyContent: 'center'
+
     },
     contentBox: {
         flex: 10,
@@ -38,37 +43,50 @@ const styles = {
     }
 };
 
-const Topic = (props) => {
-    return (
-        <div style={styles.topic}>
-            <div style={styles.voteBox}> Vote</div>
-            <div style={styles.contentBox}>
-                <div style={styles.titleBox}>
-                    <h3>
-                        Title for topic
-                    </h3>
+class Topic extends Component {
+
+    handleUpVoteClick = (e) => {
+        this.props.onUpVoteClick(this.props.topicId);
+    }
+
+    handleDownVoteClick = (e) => {
+        this.props.onDownVoteClick(this.props.topicId);
+    }
+
+    render() {
+        return (
+            <div style={styles.topic}>
+                <div style={styles.voteBox}>
+                    <VoteButton onUpVoteClick={this.handleUpVoteClick} onDownVoteClick={this.handleDownVoteClick}/>
                 </div>
-                <div style={styles.contentInfoBox}>
-                    <div>
-                        <span>
-                            Created at :
-                        </span>
-                        <span>
-                            Today
-                        </span>
+                <div style={styles.contentBox}>
+                    <div style={styles.titleBox}>
+                        <h3>
+                            {this.props.title}
+                        </h3>
                     </div>
-                    <div>
-                        <span>
-                            Author :
-                        </span>
-                        <span>
-                            Vipul Sodha
-                        </span>
+                    <div style={styles.contentInfoBox}>
+                        <div>
+                            <span>
+                                Created at :
+                            </span>
+                            <span>
+                                {this.props.createdTimeStamp}
+                            </span>
+                        </div>
+                        <div>
+                            <span>
+                                Author :
+                            </span>
+                            <span>
+                                {this.props.author}
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    )
-};
+        );
+    }
+}
 
 export default Topic;
