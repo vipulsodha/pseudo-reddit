@@ -78,9 +78,18 @@ TreeDb.prototype.getCount  = function() {
  */
 TreeDb.prototype.delete  = function(topicId) {
 
-    this.root = deleteNode(this.root, value);
+    let node = this.search(topicId);
+
+    if(node === null) {
+        // TODO: handle Error
+        return;
+    }
+
+    this.root = deleteNode(this.root, topicId, node.upVotes);
 
     decreaseDataCount(this);
+
+    deleteFromDataMap(topicId, this.dataMap);
 };
 
 /**
@@ -97,9 +106,35 @@ TreeDb.prototype.delete  = function(topicId) {
 
 TreeDb.prototype.increaseUpVote = function (topicId) {
 
+    let node = this.search(topicId);
+
+    if (node === null) {
+        // TODO: error
+
+        return;
+    }
+
+    this.delete(topicId);
+
+    node.upVotes++;
+    node.right = null;
+    node.left = null;
+
+    this.add(node);
+
 };
 
 TreeDb.prototype.increaseDownVote = function (topicId) {
+
+    let node = this.search(topicId);
+
+    if (node === null) {
+        // TODO: error
+
+        return;
+    }
+
+    node.downVotes++;
 
 };
 
@@ -123,6 +158,16 @@ const decreaseDataCount = (this_) => {
 
     this_.dataCount = this_.dataCount - 1;
 };
+
+const deleteFromDataMap = (topicId, dataMap) => {
+
+    if(topicId in dataMap) {
+        delete dataMap[topicId];
+    } else {
+        // TODO: error, should not happen
+    }
+};
+
 
 const getRangeItems = (root, start = 0, limit = 20) => {
 
@@ -176,15 +221,30 @@ const deleteAndGetMin = (node, parent) => {
 
     //TODO: fix me, some edge case I guess
 
+    if(node.left == null) {
+        parent.right = node.right;
+        return node;
+    }
+
     while (node.left !== null) {
 
         parent = node;
         node = node.left;
     }
 
-    if (node.right !== null) {
-        parent.right = node.right;
+    parent.left = node.right;
+
+    return node;
+};
+
+const getMin = (node) => {
+
+    while (node.left !== null) {
+        node = node.left;
     }
+
+    return node;
+
 };
 
 /**
@@ -194,7 +254,7 @@ const deleteAndGetMin = (node, parent) => {
  * @param topicId
  * @return {*}
  */
-const deleteNode = function(root, topicId) {
+const deleteNode = function(root, topicId, upVotes) {
 
     if(root === null) {
         // TODO: handler error
@@ -223,20 +283,20 @@ const deleteNode = function(root, topicId) {
         deletedNode.left = root.left;
         deletedNode.right = root.right;
         root = deletedNode;
-        return root;
 
     } else {
 
-        if(root.value > value) {
-            root.left = deleteNode(root.left, topicId);
-            return root.left;
+        if(root.upVotes > upVotes) {
+            root.left = deleteNode(root.left, topicId, upVotes);
         }
 
-        if(root.value < value) {
-            root.right = deleteNode(root.right, topicId);
-            return root.right;
+        if(root.upVotes <= upVotes) {
+            root.right = deleteNode(root.right, topicId, upVotes);
+
         }
     }
+
+    return root;
 };
 
 /**
@@ -281,7 +341,7 @@ const insert = (root, node) => {
     return root;
 };
 
-const iterativeInsert =(node, value) => {
+const iterativeInsert = (node, value) => {
 
     if (node === null) {
         return createNode(value);
