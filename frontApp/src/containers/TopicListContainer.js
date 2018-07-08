@@ -57,12 +57,12 @@ class TopicListContainer extends Component {
     handleDownVoteClick = (topicId, index) => {
 
         let newTopics = [...this.state.topics];
-        newTopics[index].downVotes--;
+        newTopics[index].downVotes++;
         this.setState({topics: newTopics});
 
         increaseDownVoteCount(topicId, (err) => {
             if(err !== null) {
-                newTopics[index].downVotes++;
+                newTopics[index].downVotes--;
                 this.setState({topics: newTopics});
             }
         });

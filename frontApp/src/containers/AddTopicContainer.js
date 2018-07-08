@@ -64,13 +64,10 @@ class AddTopicContainer extends Component {
 
     constructor(props) {
         super(props);
-        console.log(props);
+
         this.state = {};
-
         this.state.topic = "";
-
         this.state.count = 255;
-
         this.state.submitDisabled = false;
 
         this.onTextChange = this.onTextChange.bind(this);
@@ -78,12 +75,14 @@ class AddTopicContainer extends Component {
     }
 
     onTextChange(e) {
+
         let text = e.target.value;
 
         this.setState({topic: text, count: (255 - text.length)});
     }
 
     submitPost(e) {
+
         if (this.state.topic.length > 255) {
             alert("Topic length should be less than 255");
             return;
@@ -105,18 +104,15 @@ class AddTopicContainer extends Component {
         });
     }
 
-
-
     render() {
-        return (
 
+        return (
             <div style={styles.container}>
                 <div style={styles.titleArea}>
                     <h2>Post your Topic</h2>
                 </div>
                 <div style={styles.formArea}>
                     <textarea style={styles.textArea} onChange={this.onTextChange}>
-
                     </textarea>
                     <div style={styles.buttonArea}>
                         <span style={styles.count}> {this.state.count}</span>
@@ -125,7 +121,6 @@ class AddTopicContainer extends Component {
                         </button>
                     </div>
                 </div>
-
             </div>
         )
     }
