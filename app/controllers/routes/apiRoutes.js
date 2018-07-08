@@ -10,5 +10,5 @@ module.exports =  [
         {method: httpMethods.GET, path: '/api/topics', config: configs.getTopics},
         {method: httpMethods.GET, path: '/api/topics/{topicId}', config: configs.getTopic},
         {method: httpMethods.POST, path: '/api/topics/{topicId}/upvote', config: configs.upVoteTopic},
-        {method: httpMethods.POST, path: '/api/topics/{userId}/downvote', config: configs.downVoteTopic}
+        {method: httpMethods.POST, path: '/api/topics/{topicId}/downvote', config: configs.downVoteTopic}
 ];

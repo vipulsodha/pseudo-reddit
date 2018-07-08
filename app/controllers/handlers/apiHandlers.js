@@ -25,12 +25,14 @@ const getTopic = (request, h) => {
 
 const upVoteTopic = (request, h) => {
 
-    return votingService.upVoteTopic(request.params.topicId);
+    votingService.upVoteTopic(request.params.topicId);
+    return h.response().code(204);
 };
 
 const downVoteTopic = (request, h) => {
 
-    return votingService.downVoteTopic(request.params.topicId);
+    votingService.downVoteTopic(request.params.topicId);
+    return h.response().code(204);
 };
 
 module.exports = {
