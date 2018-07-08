@@ -9,6 +9,14 @@ import ReactDom from 'react-dom';
 
 import Topic from './Topic';
 
+const styles = {
+    innerContainer: {
+        width: '100%',
+        marginBottom:'12px',
+        float:'left'
+    }
+};
+
 const TopicList = ({topics, onUpVoteClick, onDownVoteClick}) => {
 
     if (topics === undefined || topics === null || topics.length === 0) {
@@ -18,7 +26,11 @@ const TopicList = ({topics, onUpVoteClick, onDownVoteClick}) => {
     return (
         <div>
             {
-                topics.map((topic) => <Topic {...topic} onUpVoteClick={onUpVoteClick} onDownVoteClick={onDownVoteClick} />)
+                topics.map((topic) => (
+                    <div style = {styles.innerContainer}>
+                        <Topic {...topic} onUpVoteClick={onUpVoteClick} onDownVoteClick={onDownVoteClick} />
+                    </div>
+                ))
             }
         </div>
     )

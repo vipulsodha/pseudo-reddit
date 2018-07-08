@@ -13,33 +13,39 @@ const styles = {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        border: '1px solid black',
+        border: '2px solid #efeeee',
         height: 'auto',
-        width: '100%'
+        width: '100%',
+        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
     },
     voteBox: {
         flex:1,
         display: 'flex',
-        border: '1px solid yellow',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderRight: '1px solid #d9d9d9',
+        margin:'8px 0px'
 
     },
     contentBox: {
-        flex: 10,
+        flex: 5,
         display:'flex',
-        border: '1px solid blue',
         flexDirection:'column'
     },
     titleBox: {
-        flex:3
+        flex:3,
+        padding: '16px',
+        overflowWrap: 'break-word'
     },
     contentInfoBox: {
         flex:1,
-        border: '1px solid red',
         display:'flex',
         flexDirection:'row',
-        justifyContent: 'space-evenly'
+        justifyContent: 'space-between',
+        padding: '16px'
+    },
+    timeStampBox: {
+        'alignSelf': 'center'
     }
 };
 
@@ -68,19 +74,20 @@ class Topic extends Component {
                     <div style={styles.contentInfoBox}>
                         <div>
                             <span>
-                                Created at :
-                            </span>
-                            <span>
-                                {this.props.createdTimeStamp}
-                            </span>
-                        </div>
-                        <div>
-                            <span>
                                 Author :
                             </span>
                             <span>
                                 {this.props.author}
                             </span>
+                        </div>
+                        <div style={styles.timeStampBox}>
+                            <span>
+                                Created at :
+                            </span>
+                            <span>
+                                {new Date(this.props.createdTimeStamp).toLocaleDateString()}
+                            </span>
+
                         </div>
                     </div>
                 </div>
