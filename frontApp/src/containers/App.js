@@ -6,23 +6,25 @@ import React, { Component } from 'react';
 import ReactDom from 'react-dom';
 import  {HashRouter as Router, Route} from 'react-router-dom';
 
-
-
-
 import TopicListContainer from '../containers/TopicListContainer';
 import  AddTopicContainer from '../containers/AddTopicContainer';
+import Header from '../components/Header';
 
 class App extends Component {
 
     render() {
         return (
 
-            <Router>
-                <div>
-                    <Route path="/" exact component={TopicListContainer}/>
-                    <Route path="/add" component={AddTopicContainer}/>
-                </div>
-            </Router>
+            <div>
+
+                <Router>
+                    <div>
+                        <Header/>
+                        <Route path="/" exact component={TopicListContainer}/>
+                        <Route path="/add" component={AddTopicContainer}/>
+                    </div>
+                </Router>
+            </div>
         );
     }
 };
