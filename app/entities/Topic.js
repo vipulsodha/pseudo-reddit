@@ -3,7 +3,7 @@
  */
 
 /**
- *
+ * @public
  * @param title
  * @param author
  * @param upVotes
@@ -12,15 +12,14 @@
  * @return {{title: *, author: string, upVotes: number, downVotes: number, createdTimeStamp: number}}
  *
  */
-const Topic = (title, author = 'anonymous', upVotes = 0, downVotes = 0, createdTimeStamp = new Date().getTime()) => {
+const Topic = function(title, author = 'anonymous', upVotes = 0, downVotes = 0, createdTimeStamp = new Date().getTime(), topicId) {
 
-    return {
-        title,
-        author,
-        upVotes,
-        downVotes,
-        createdTimeStamp
-    };
+    this.title = title;
+    this.author = author;
+    this.upVotes = upVotes;
+    this.downVotes = downVotes;
+    this.createdTimeStamp = createdTimeStamp;
+    this.topicId = topicId;
 };
 
 module.exports = Topic;
