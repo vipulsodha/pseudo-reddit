@@ -22,12 +22,6 @@ const InitDb = () => {
     return DB;
 };
 
-
-const createNode = (value) => {
-
-    return new Node(value);
-};
-
 /**
  * @public
  * @constructor
@@ -66,7 +60,7 @@ TreeDb.prototype.add = function(node) {
  */
 TreeDb.prototype.search  = function(topicId) {
 
-    return search(topicId);
+    return search(topicId, this.dataMap);
 };
 
 /**
@@ -117,33 +111,30 @@ TreeDb.prototype.increaseDownVote = function (topicId) {
  */
 TreeDb.prototype.getRangeItems = function (start = 1, limit = 20) {
 
-    return getRangeItems(start, limit);
+    return getRangeItems(this.root, start, limit);
 };
 
 const increaseDataCount = (this_) => {
 
     this_.dataCount = this_.dataCount + 1;
-
 };
 
 const decreaseDataCount = (this_) => {
 
     this_.dataCount = this_.dataCount - 1;
-
 };
-
 
 const getRangeItems = (root, start = 0, limit = 20) => {
 
+    const topics = [];
+
     if(root === null) {
-        return [];
+        return topics;
     }
 
     const stack = [];
 
     let i = 0;
-
-    var topics = [];
 
     while (true) {
 
@@ -170,6 +161,8 @@ const getRangeItems = (root, start = 0, limit = 20) => {
             root = root.left;
         }
     }
+
+    return topics;
 };
 
 /**
@@ -251,10 +244,10 @@ const deleteNode = function(root, topicId) {
  * @param {int} topicId
  * @return {DbNode}
  */
-const search = (topicId) => {
+const search = (topicId, dataMap) => {
 
-    if (topicId in this.dataMap) {
-        return this.dataMap[topicId];
+    if (topicId in dataMap) {
+        return dataMap[topicId];
     }
 
     return null;
