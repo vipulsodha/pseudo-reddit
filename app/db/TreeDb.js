@@ -4,53 +4,172 @@
 /**
  * Balanced Binary tree implementation for storing inmemory data.
  */
+const Node = require('./DbNode');
 
 var DB = null;
 
-function InitDb() {
+/**
+ *
+ * @return {TreeDb}
+ * @constructor
+ */
+const InitDb = () => {
 
     if(DB === null) {
         DB = new TreeDb();
     }
 
     return DB;
-}
+};
 
 
-function Node(value) {
+const createNode = (value) => {
 
-    this.value = value;
-    this.right = null;
-    this.left = null;
-}
-
-
-function createNode(value) {
     return new Node(value);
-}
+};
 
-function TreeDb() {
+/**
+ * @public
+ * @constructor
+ */
+const TreeDb = function () {
 
     this.root = null;
-
-}
-
-TreeDb.prototype.add = function(value) {
-
-   this.root = insert(this.root, value);
+    this.dataMap = {};
+    this.dataCount = 0;
 
 };
 
-TreeDb.prototype.search  = function(value) {
+/**
+ * @public
+ * @param {DbNode} node
+ *
+ */
+TreeDb.prototype.add = function(node) {
 
-    return search(this.root, value);
+    if(node.topicId in this.dataMap) {
+        // TODO: handle error, two topics cannot have same topic id
+    } else {
 
+        this.dataMap[node.topicId] = node;
+    }
+
+    this.root = insert(this.root, node);
+
+    increaseDataCount(this);
 };
 
-TreeDb.prototype.delete  = function(value) {
+/**
+ * Function used to search for topic Id
+ * @param {int} topicId
+ * @return {DbNode}
+ */
+TreeDb.prototype.search  = function(topicId) {
+
+    return search(topicId);
+};
+
+/**
+ * Returns the count of topics available
+ * @return {number}
+ */
+TreeDb.prototype.getCount  = function() {
+
+    return this.dataCount;
+};
+
+/**
+ * @public
+ * @param {int} topicId
+ */
+TreeDb.prototype.delete  = function(topicId) {
 
     this.root = deleteNode(this.root, value);
 
+    decreaseDataCount(this);
+};
+
+/**
+ * A more generic approach to update values, can be implemented later
+ */
+// TreeDb.prototype.update = function (topicId, node) {
+//
+// };
+//
+// TreeDb.prototype.updateAndSort = function (topicId, node) {
+//
+// };
+
+
+TreeDb.prototype.increaseUpVote = function (topicId) {
+
+};
+
+TreeDb.prototype.increaseDownVote = function (topicId) {
+
+};
+
+/**
+ * @public
+ * @param start
+ * @param limit
+ * @return {Array.<DbNode>}
+ */
+TreeDb.prototype.getRangeItems = function (start = 1, limit = 20) {
+
+    return getRangeItems(start, limit);
+};
+
+const increaseDataCount = (this_) => {
+
+    this_.dataCount = this_.dataCount + 1;
+
+};
+
+const decreaseDataCount = (this_) => {
+
+    this_.dataCount = this_.dataCount - 1;
+
+};
+
+
+const getRangeItems = (root, start = 0, limit = 20) => {
+
+    if(root === null) {
+        return [];
+    }
+
+    const stack = [];
+
+    let i = 0;
+
+    var topics = [];
+
+    while (true) {
+
+        if (root !== null) {
+            stack.push(root);
+            root = root.right;
+        } else {
+
+            if (stack.length === 0) {
+                break;
+            }
+
+            root = stack.pop();
+            i++;
+
+            if(i >= start && i < (start + limit)) {
+                topics.push(root);
+            }
+
+            if(i >= (start + limit)) {
+                break;
+            }
+
+            root = root.left;
+        }
+    }
 };
 
 /**
@@ -60,11 +179,12 @@ TreeDb.prototype.delete  = function(value) {
  * @param parent
  * @return {Object}
  */
-function deleteAndGetMin(node, parent) {
+const deleteAndGetMin = (node, parent) => {
 
     //TODO: fix me, some edge case I guess
 
     while (node.left !== null) {
+
         parent = node;
         node = node.left;
     }
@@ -72,94 +192,103 @@ function deleteAndGetMin(node, parent) {
     if (node.right !== null) {
         parent.right = node.right;
     }
+};
 
-}
+/**
+ * Function used to delete Node from tree
+ * @private
+ * @param root
+ * @param topicId
+ * @return {*}
+ */
+const deleteNode = function(root, topicId) {
 
-
-function deleteNode(node, value) {
-
-
-    if(node === null) {
+    if(root === null) {
         // TODO: handler error
 
         return null;
     }
 
-    if (node.value == value) {
+    if (root.topicId == topicId) {
 
-        if (node.right === null && node.left === null) {
+        if (root.right === null && root.left === null) {
             return null;
         }
 
-        if (node.right === null) {
-            return node.left;
+        if (root.right === null) {
+            return root.left;
         }
 
-        if (node.left === null) {
-            return node.right;
+        if (root.left === null) {
+            return root.right;
         }
 
         // node.value = getMin(node.right);
         // node.right = deleteNode(node.right, node.value);
 
-        let deletedNode = deleteAndGetMin(node.right, node);
-        deletedNode.left = node.left;
-        deletedNode.right = node.right;
-        node = deletedNode;
+        let deletedNode = deleteAndGetMin(root.right, root);
+        deletedNode.left = root.left;
+        deletedNode.right = root.right;
+        root = deletedNode;
+        return root;
+
+    } else {
+
+        if(root.value > value) {
+            root.left = deleteNode(root.left, topicId);
+            return root.left;
+        }
+
+        if(root.value < value) {
+            root.right = deleteNode(root.right, topicId);
+            return root.right;
+        }
+    }
+};
+
+/**
+ * Function used to search a topicId in the tree using recursion
+ * @param {int} topicId
+ * @return {DbNode}
+ */
+const search = (topicId) => {
+
+    if (topicId in this.dataMap) {
+        return this.dataMap[topicId];
+    }
+
+    return null;
+
+};
+
+/**
+ * Function used to insert node in the tree using recursion
+ * @private
+ * @param {DbNode} root
+ * @param {DbNode} node
+ * @return {DbNode}
+ */
+const insert = (root, node) => {
+
+    if (root === null) {
+
         return node;
-    } else {
-
-        if(node.value > value) {
-            node.left = deleteNode(node.left, value);
-            return node.left;
-        }
-        if(node.value < value) {
-            node.right = deleteNode(node.right, value);
-            return node.right;
-        }
-
-    }
-}
-
-function search(node, value) {
-    if (node === null) {
-        return null;
     }
 
-    if (node.value === value) {
-        return value;
-    }
+    if (root.upVotes > node.upVotes) {
 
-    if (node.value > value) {
-        return search(node.left, value);
-    }
-
-    return search(node.right, value);
-
-}
-
-function insert(node, value) {
-
-    if (node === null) {
-
-        return createNode(value);
-    }
-
-    if (node.value > value) {
-
-       node.left = insert(node.left, value);
+        root.left = insert(root.left, node);
 
     } else {
 
-        node.right = insert(node.right, value);
+        root.right = insert(root.right, node);
 
     }
 
-    return node;
+    return root;
+};
 
-}
-
-function iterativeInsert(node, value) {
+const iterativeInsert =(node, value) => {
 
     if (node === null) {
         return createNode(value);
@@ -168,7 +297,9 @@ function iterativeInsert(node, value) {
     let parent = node;
 
     while (node != null) {
+
         parent = node;
+
         if (node.value > value) {
             node = node.left;
         } else  {
@@ -180,10 +311,9 @@ function iterativeInsert(node, value) {
     } else {
         parent.right = createNode(value);
     }
-}
+};
 
-
-function iterativeSearch(node, value) {
+const iterativeSearch = (node, value) => {
 
     if (node === null ) {
         return null;
@@ -202,8 +332,6 @@ function iterativeSearch(node, value) {
     }
 
     return node;
-}
-
+};
 
 module.exports = {InitDb};
-
