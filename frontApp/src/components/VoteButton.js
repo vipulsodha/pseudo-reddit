@@ -15,7 +15,6 @@ const styles = {
     }
 };
 
-
 const IconButton = (props) => {
 
     return (
@@ -25,17 +24,20 @@ const IconButton = (props) => {
     )
 };
 
-const VoteButton = ({onUpVoteClick, onDownVoteClick}) => {
+const VoteButton = ({onUpVoteClick, onDownVoteClick, upVoteCount, downVotecount}) => {
 
     return (
         <div>
             <IconButton onClick={onUpVoteClick} >
                 <FaArrowUp/>
             </IconButton>
-                123
+            {upVoteCount}
+            <br/>
+            <hr/>
             <IconButton onClick={onDownVoteClick} >
                 <FaArrowDown/>
             </IconButton>
+            {downVotecount}
         </div>
     );
 };

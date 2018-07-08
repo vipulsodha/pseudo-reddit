@@ -52,18 +52,18 @@ const styles = {
 class Topic extends Component {
 
     handleUpVoteClick = (e) => {
-        this.props.onUpVoteClick(this.props.topicId);
+        this.props.onUpVoteClick(this.props.topicId, this.props.index);
     }
 
     handleDownVoteClick = (e) => {
-        this.props.onDownVoteClick(this.props.topicId);
+        this.props.onDownVoteClick(this.props.topicId, this.props.index);
     }
 
     render() {
         return (
             <div style={styles.topic}>
                 <div style={styles.voteBox}>
-                    <VoteButton onUpVoteClick={this.handleUpVoteClick} onDownVoteClick={this.handleDownVoteClick}/>
+                    <VoteButton onUpVoteClick={this.handleUpVoteClick} onDownVoteClick={this.handleDownVoteClick} upVoteCount = {this.props.upVotes} downVotecount = {this.props.downVotes} />
                 </div>
                 <div style={styles.contentBox}>
                     <div style={styles.titleBox}>
@@ -74,7 +74,7 @@ class Topic extends Component {
                     <div style={styles.contentInfoBox}>
                         <div>
                             <span>
-                                Author :
+                                <b>Author :</b>&nbsp;
                             </span>
                             <span>
                                 {this.props.author}
@@ -82,7 +82,7 @@ class Topic extends Component {
                         </div>
                         <div style={styles.timeStampBox}>
                             <span>
-                                Created at :
+                                <b>Created at :</b>&nbsp;
                             </span>
                             <span>
                                 {new Date(this.props.createdTimeStamp).toLocaleDateString()}

@@ -26,9 +26,9 @@ const TopicList = ({topics, onUpVoteClick, onDownVoteClick}) => {
     return (
         <div>
             {
-                topics.map((topic) => (
+                topics.map((topic, index) => (
                     <div style = {styles.innerContainer}>
-                        <Topic {...topic} onUpVoteClick={onUpVoteClick} onDownVoteClick={onDownVoteClick} />
+                        <Topic {...topic} onUpVoteClick={onUpVoteClick} onDownVoteClick={onDownVoteClick} index = {index} />
                     </div>
                 ))
             }

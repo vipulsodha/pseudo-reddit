@@ -8,7 +8,7 @@ import ReactDom from 'react-dom';
 import TopicList from '../components/TopicList';
 import FloatingButton from '../components/FloatingButton';
 
-import {getTopics} from '../utils/api';
+import {getTopics, increaseDownVoteCount, increaseUpVoteCount} from '../utils/api';
 
 const styles = {
     container: {
@@ -39,12 +39,33 @@ class TopicListContainer extends Component {
         });
     }
 
-    handleUpVoteClick = (topicId) => {
-        console.log(topicId);
+    handleUpVoteClick = (topicId, index) => {
+
+        let newTopics = [...this.state.topics];
+        newTopics[index].upVotes++;
+        this.setState({topics: newTopics});
+
+        increaseUpVoteCount(topicId, (err) => {
+            if(err !== null) {
+                alert("Something went wrong");
+                newTopics[index].upVotes--;
+                this.setState({topics: newTopics});
+            }
+        });
     }
 
-    handleDownVoteClick = (topicId) => {
-        console.log(topicId);
+    handleDownVoteClick = (topicId, index) => {
+
+        let newTopics = [...this.state.topics];
+        newTopics[index].downVotes--;
+        this.setState({topics: newTopics});
+
+        increaseDownVoteCount(topicId, (err) => {
+            if(err !== null) {
+                newTopics[index].downVotes++;
+                this.setState({topics: newTopics});
+            }
+        });
     }
 
     onNewTopicClick =(e) => {
