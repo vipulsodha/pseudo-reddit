@@ -3,7 +3,7 @@
  */
 
 const httpMethods = require('../../util/httpMethods');
-const configs = require('../routeConfigs/apiConfigs')
+const configs = require('../routeConfigs/apiConfigs');
 
 module.exports =  [
         {method: httpMethods.POST, path: '/api/topics', config: configs.createTopic},

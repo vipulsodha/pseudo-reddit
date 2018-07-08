@@ -7,9 +7,10 @@ const TopicDao = require('../dao/TopicDao');
 const Topic = require('../entities/Topic');
 
 
-const getNewTopicId = function (count) {
+const getNewTopicId =  (count) => {
 
    count = count + 1;
+    return count;
 
 };
 
@@ -23,6 +24,6 @@ const createNewTopic = ({title, author}) => {
 };
 
 
-exports.module = {
+module.exports = {
     createNewTopic
 };
