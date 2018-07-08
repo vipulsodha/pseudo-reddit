@@ -4,13 +4,26 @@
 
 import React, { Component } from 'react';
 import ReactDom from 'react-dom';
+import  {HashRouter as Router, Route} from 'react-router-dom';
+
+
+
 
 import TopicListContainer from '../containers/TopicListContainer';
+import  AddTopicContainer from '../containers/AddTopicContainer';
 
 class App extends Component {
 
     render() {
-        return (<TopicListContainer/>);
+        return (
+
+            <Router>
+                <div>
+                    <Route path="/" exact component={TopicListContainer}/>
+                    <Route path="/add" component={AddTopicContainer}/>
+                </div>
+            </Router>
+        );
     }
 };
 
