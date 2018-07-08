@@ -8,14 +8,17 @@ const Topic = require('../entities/Topic');
 
 const DB = TreeDb.InitDb();
 
-
 /**
  * @private
  * @param {Topic} topic
  */
 const mapTopicToDbNode = (topic) => {
 
-    return new Node(topic.title, topic.aurthor, topic.upVotes, topic.downVotes, topic.createdTimeStamp, topic.topicId);
+    if (topic === null) {
+        return null;
+    }
+
+    return new Node(topic.title, topic.author, topic.upVotes, topic.downVotes, topic.createdTimeStamp, topic.topicId);
 };
 
 /**
@@ -24,7 +27,11 @@ const mapTopicToDbNode = (topic) => {
  */
 const mapDbNodeToTopic = (node) => {
 
-    return new Topic(node.title, node.aurthor, node.upVotes, node.downVotes, node.createdTimeStamp, node.topicId);
+    if(node === null) {
+        return null;
+    }
+
+    return new Topic(node.title, node.author, node.upVotes, node.downVotes, node.createdTimeStamp, node.topicId);
 };
 
 
@@ -44,7 +51,8 @@ const insertNewTopic = (topic)  => {
  */
 const getTopic = (topicId)  => {
 
-    DB.search(topicId);
+    return mapDbNodeToTopic(DB.search(topicId));
+
 };
 
 /**
