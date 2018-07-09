@@ -4,35 +4,76 @@
 const topicCreationService = require('../../service/topicCreationService');
 const topicGetterService = require('../../service/topicGetterService');
 const votingService = require('../../service/votingService');
+const ErrorTypes = require('../../errors/errorList').errorTypes;
 
 
-const createTopic = (request, h) => {
 
-    topicCreationService.createNewTopic(request.payload);
+const callbackHandler = (h, resolve) => {
 
-    return h.response().code(201);
+    return (err, data) => {
+
+        if (err != null) {
+
+            switch (err.errorType) {
+                case ErrorTypes.SYSTEM_ERROR:
+
+                    resolve(h.response(err.message).code(500));
+                    break;
+
+                case ErrorTypes.USER_ERROR:
+                    resolve(h.response(err.message).code(422));
+                    break;
+                default:
+                    resolve(h.response('Something went Wrong :(').code(500));
+                    break;
+            }
+        } else {
+
+            resolve(h.response(data).code(200));
+        }
+    }
 };
 
-const getTopics = (request, h) => {
 
-    return topicGetterService.getTopics(request.query.start, request.query.limit);
+const createTopic = async (request, h) => {
+
+    return new Promise((resolve) => {
+        topicCreationService.createNewTopic(request.payload, callbackHandler(h, resolve));
+    });
+
 };
 
-const getTopic = (request, h) => {
+const getTopics = async  (request, h) => {
 
-    return topicGetterService.getTopic(request.params.topicId);
+    return new Promise((resolve) => {
+
+        topicGetterService.getTopics(request.query.start, request.query.limit, callbackHandler(h, resolve));
+    });
+
 };
 
-const upVoteTopic = (request, h) => {
+const getTopic = async (request, h) => {
 
-    votingService.upVoteTopic(request.params.topicId);
-    return h.response().code(204);
+    return new Promise((resolve) => {
+
+        topicGetterService.getTopic(request.params.topicId, callbackHandler(h, resolve));
+    });
 };
 
-const downVoteTopic = (request, h) => {
+const upVoteTopic = async (request, h) => {
 
-    votingService.downVoteTopic(request.params.topicId);
-    return h.response().code(204);
+    return new Promise((resolve) => {
+
+        votingService.upVoteTopic(request.params.topicId, callbackHandler(h, resolve));
+    });
+};
+
+const downVoteTopic = async (request, h) => {
+
+    return new Promise((resolve) => {
+
+        votingService.downVoteTopic(request.params.topicId, callbackHandler(h, resolve));
+    });
 };
 
 module.exports = {
