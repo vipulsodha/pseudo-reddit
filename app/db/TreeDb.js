@@ -5,6 +5,7 @@
  * Balanced Binary tree implementation for storing inmemory data.
  */
 const Node = require('./DbNode');
+const Errors = require('./DbError');
 
 var DB = null;
 
@@ -31,18 +32,19 @@ const TreeDb = function () {
     this.root = null;
     this.dataMap = {};
     this.dataCount = 0;
-
 };
 
 /**
  * @public
  * @param {DbNode} node
- *
+ * @throws {Error}
  */
 TreeDb.prototype.add = function(node) {
 
     if(node.topicId in this.dataMap) {
-        // TODO: handle error, two topics cannot have same topic id
+
+        throw new Error(Errors.cannotAddAlreadyExists);
+
     } else {
 
         this.dataMap[node.topicId] = node;
@@ -75,14 +77,14 @@ TreeDb.prototype.getCount  = function() {
 /**
  * @public
  * @param {int} topicId
+ * @throws {Error}
  */
 TreeDb.prototype.delete  = function(topicId) {
 
     let node = this.search(topicId);
 
     if(node === null) {
-        // TODO: handle Error
-        return;
+        throw new Error(Errors.recordDoesNotExist);
     }
 
     this.root = deleteNode(this.root, topicId, node.upVotes);
@@ -90,6 +92,7 @@ TreeDb.prototype.delete  = function(topicId) {
     decreaseDataCount(this);
 
     deleteFromDataMap(topicId, this.dataMap);
+
 };
 
 /**
@@ -103,15 +106,18 @@ TreeDb.prototype.delete  = function(topicId) {
 //
 // };
 
-
+/**
+ *
+ * @param topicId
+ * @throws {Error}
+ *
+ */
 TreeDb.prototype.increaseUpVote = function (topicId) {
 
     let node = this.search(topicId);
 
     if (node === null) {
-        // TODO: error
-
-        return;
+        throw new Error(Errors.recordDoesNotExist);
     }
 
     this.delete(topicId);
@@ -128,8 +134,8 @@ TreeDb.prototype.increaseDownVote = function (topicId) {
     let node = this.search(topicId);
 
     if (node === null) {
-        // TODO: error
-        return;
+        throw new Error(Errors.recordDoesNotExist);
+
     }
 
     node.downVotes++;
@@ -173,8 +179,6 @@ const deleteFromDataMap = (topicId, dataMap) => {
 
     if(topicId in dataMap) {
         delete dataMap[topicId];
-    } else {
-        // TODO: error, should not happen
     }
 };
 
@@ -274,7 +278,6 @@ const getMin = (node) => {
 const deleteNode = function(root, topicId, upVotes) {
 
     if(root === null) {
-        // TODO: handler error
 
         return null;
     }
