@@ -9,23 +9,22 @@ const TopicDao = require('../dao/TopicDao');
  *  Call this function get list of topics within the given range
  * @param {int} start
  * @param {int}limit
- * @return {Array.<Topic>}
- *
+ * @param {Function} callback
  */
-const getTopics = (start = 1, limit = 20) => {
+const getTopics = (start = 1, limit = 20, callback) => {
 
-    return TopicDao.getTopics(start, limit);
+    TopicDao.getTopics(start, limit, callback);
 };
 
 /**
  * Call this service function to get topic with particular topic id
  *
  * @param {int} topicId
- * @return {Topic}
+ * @param {Function} callback
  */
-const getTopic = (topicId) => {
+const getTopic = (topicId, callback) => {
 
-    return TopicDao.getTopic(topicId);
+    TopicDao.getTopic(topicId, callback);
 };
 
 module.exports = {

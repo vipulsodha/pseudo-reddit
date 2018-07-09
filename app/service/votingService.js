@@ -2,27 +2,26 @@
  * Created by vipulsodha on 07/07/18.
  */
 
-
 const TopicDao = require('../dao/TopicDao');
 
 /**
  *
  * @param {int} topicId
- * @return {Boolean}
+ * @param {Function} callback
  */
-const upVoteTopic = (topicId) => {
+const upVoteTopic = (topicId, callback) => {
 
-    return TopicDao.upVoteTopic(topicId);
+     TopicDao.upVoteTopic(topicId, callback);
 };
 
 /**
  *
  * @param {int} topicId
- * @return {Boolean}
+ * @param {Function} callback
  */
-const downVoteTopic = (topicId) => {
+const downVoteTopic = (topicId, callback) => {
 
-    return TopicDao.downVoteTopic(topicId);
+    TopicDao.downVoteTopic(topicId, callback);
 };
 
 module.exports = {
