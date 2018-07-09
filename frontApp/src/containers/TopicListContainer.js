@@ -7,6 +7,9 @@ import ReactDom from 'react-dom';
 
 import TopicList from '../components/TopicList';
 import FloatingButton from '../components/FloatingButton';
+import Loader from '../components/Loader';
+import {Link} from 'react-router-dom';
+
 
 import {getTopics, increaseDownVoteCount, increaseUpVoteCount} from '../utils/api';
 
@@ -14,6 +17,11 @@ const styles = {
     container: {
         width:'60%',
         margin: '0 auto'
+    },
+    loader: {
+        width: '100%',
+        marginTop:'100px',
+        textAlign: 'center'
     }
 };
 
@@ -23,7 +31,8 @@ class TopicListContainer extends Component {
         super(props);
 
         this.state = {
-            topics: []
+            topics: [],
+            loading: true
         };
     }
 
@@ -35,7 +44,7 @@ class TopicListContainer extends Component {
                 alert("Something went wrong");
             }
 
-            this.setState({topics});
+            this.setState({topics, loading:false});
         });
     }
 
@@ -76,7 +85,15 @@ class TopicListContainer extends Component {
 
         return (
             <div style={styles.container}>
-                <TopicList topics={this.state.topics} onUpVoteClick={this.handleUpVoteClick} onDownVoteClick={this.handleDownVoteClick} />
+                {
+                    this.state.loading === true ?
+                        <div style={styles.loader}><Loader/></div>
+                        :
+                        this.state.topics.length === 0 ?
+                            <div style={styles.loader}>No Topics. <Link to="/add"> Click </Link>to add topics</div>
+                            :
+                            <TopicList topics={this.state.topics} onUpVoteClick={this.handleUpVoteClick} onDownVoteClick={this.handleDownVoteClick} />
+                }
                 <FloatingButton onClick={this.onNewTopicClick}/>
             </div>
         );
