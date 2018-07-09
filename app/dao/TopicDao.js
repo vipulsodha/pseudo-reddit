@@ -44,11 +44,15 @@ const mapDbNodeToTopic = (node) => {
 const insertNewTopic = (topic, callback)  => {
 
     try {
-        return callback(DB.add(mapTopicToDbNode(topic)));
+
+        DB.add(mapTopicToDbNode(topic));
+
     } catch (e) {
 
         return callback(Errors.cannotAddNewTopic);
     }
+
+    return callback(null);
 };
 
 /**
@@ -96,11 +100,11 @@ const getTopics = (start = 1, limit = 20, callback)  => {
 const deleteTopic = (topicId, callback)  => {
 
     try {
-        return callback(DB.delete(topicId));
+        DB.delete(topicId);
     } catch (e) {
         return callback(Errors.cannotDeleteGivenTopic);
     }
-    return callback(null, true);
+    return callback(null);
 };
 
 /**
@@ -111,12 +115,12 @@ const deleteTopic = (topicId, callback)  => {
 const upVoteTopic = (topicId, callback)  => {
 
     try {
-        return callback(DB.increaseUpVote(topicId));
+        DB.increaseUpVote(topicId);
     } catch (e) {
         return callback(Errors.cannotChangeVote);
     }
 
-    return callback(null, true);
+    return callback(null);
 };
 
 /**
@@ -127,12 +131,12 @@ const upVoteTopic = (topicId, callback)  => {
 const downVoteTopic = (topicId, callback)  => {
 
     try {
-        return callback(DB.increaseDownVote(topicId));
+        DB.increaseDownVote(topicId);
     } catch (e) {
         return callback(Errors.cannotChangeVote);
     }
 
-    return callback(null, true);
+    return callback(null);
 };
 
 const getTotalTopicCount = (callback) => {
