@@ -5,6 +5,7 @@
 const TreeDb  = require('../db/TreeDb');
 const Node = require('../db/DbNode');
 const Topic = require('../entities/Topic');
+const Errors = require('../errors/errorList').errorList;
 
 const DB = TreeDb.InitDb();
 
@@ -38,40 +39,68 @@ const mapDbNodeToTopic = (node) => {
 /**
  * @public
  * @param {Topic} topic
+ * @return {Function}
  */
-const insertNewTopic = (topic)  => {
+const insertNewTopic = (topic, callback)  => {
 
-    DB.add(mapTopicToDbNode(topic))
+    try {
+        return callback(DB.add(mapTopicToDbNode(topic)));
+    } catch (e) {
+
+        return callback(Errors.cannotAddNewTopic);
+    }
 };
 
 /**
  * @public
  * @param {int} topicId
- * @return {Topic}
+ * @return {Function}
  */
-const getTopic = (topicId)  => {
+const getTopic = (topicId, callback)  => {
 
-    return mapDbNodeToTopic(DB.search(topicId));
+    let topic = DB.search(topicId);
 
+    if (topic === null) {
+        return callback(null, topic);
+    }
+
+    return callback(null, mapDbNodeToTopic(topic));
 };
 
 /**
  * @public
  * @param {int} start
  * @param {int} limit
- * @return {Array.<Topic>}
+ * @return {Function}
  */
-const getTopics = (start = 1, limit = 20)  => {
+const getTopics = (start = 1, limit = 20, callback)  => {
 
     const dbNodes = DB.getRangeItems(start, limit);
 
     if (dbNodes === null) {
-        return null;
+        return callback(null, []);
     }
 
-    return dbNodes.map((node) => {
+    let result = dbNodes.map((node) => {
        return mapDbNodeToTopic(node);
     });
+
+    return callback(null, result);
+};
+
+/**
+ * @public
+ * @param {int} topicId
+ * @return {Function}
+ */
+const deleteTopic = (topicId, callback)  => {
+
+    try {
+        return callback(DB.delete(topicId));
+    } catch (e) {
+        return callback(Errors.cannotDeleteGivenTopic);
+    }
+    return callback(null, true);
 };
 
 /**
@@ -79,11 +108,15 @@ const getTopics = (start = 1, limit = 20)  => {
  * @param {int} topicId
  * @return {Boolean}
  */
-const deleteTopic = (topicId)  => {
+const upVoteTopic = (topicId, callback)  => {
 
-    DB.delete(topicId);
+    try {
+        return callback(DB.increaseUpVote(topicId));
+    } catch (e) {
+        return callback(Errors.cannotChangeVote);
+    }
 
-    return true;
+    return callback(null, true);
 };
 
 /**
@@ -91,26 +124,19 @@ const deleteTopic = (topicId)  => {
  * @param {int} topicId
  * @return {Boolean}
  */
-const upVoteTopic = (topicId)  => {
+const downVoteTopic = (topicId, callback)  => {
 
-    DB.increaseUpVote(topicId);
+    try {
+        return callback(DB.increaseDownVote(topicId));
+    } catch (e) {
+        return callback(Errors.cannotChangeVote);
+    }
 
-    return true;
+    return callback(null, true);
 };
 
-/**
- * @public
- * @param {int} topicId
- * @return {Boolean}
- */
-const downVoteTopic = (topicId)  => {
+const getTotalTopicCount = (callback) => {
 
-    DB.increaseDownVote(topicId);
-
-    return true;
-};
-
-const getTotalTopicCount = () => {
   return DB.getCount();
 };
 
