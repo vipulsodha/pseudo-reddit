@@ -5,14 +5,19 @@ const topicCreationService = require('../../service/topicCreationService');
 const topicGetterService = require('../../service/topicGetterService');
 const votingService = require('../../service/votingService');
 const ErrorTypes = require('../../errors/errorList').errorTypes;
+const DataTypes = require('../../constants/dataType');
 
-
-
+/**
+ * Generic call back handler for handling error messages and status codes
+ * @param h
+ * @param resolve
+ * @returns {Function}
+ */
 const callbackHandler = (h, resolve) => {
 
-    return (err, data) => {
+    return (err, res) => {
 
-        if (err != null) {
+        if (err != null || err) {
 
             switch (err.errorType) {
                 case ErrorTypes.SYSTEM_ERROR:
@@ -28,13 +33,44 @@ const callbackHandler = (h, resolve) => {
                     break;
             }
         } else {
+            switch (res.dataType) {
 
-            resolve(h.response(data).code(200));
+                case DataTypes.DATA_CREATED:
+
+                    resolve(h.response(res.data).code(201));
+
+                    break;
+                case DataTypes.DATA_DELETED:
+
+                    resolve(h.response(res.data).code(204));
+
+                    break;
+                case DataTypes.DATA_RETRIEVED:
+
+                    resolve(h.response(res.data).code(200));
+
+                    break;
+                case DataTypes.DATA_UPDATED:
+
+                    resolve(h.response(res.data).code(204));
+
+                    break;
+                default:
+
+                    resolve(h.response(res.data).code(200));
+
+                    break;
+            }
         }
     }
 };
 
-
+/**
+ * Handler used to create topic.
+ * @param request
+ * @param h
+ * @returns {Promise<any>}
+ */
 const createTopic = async (request, h) => {
 
     return new Promise((resolve) => {
@@ -43,6 +79,12 @@ const createTopic = async (request, h) => {
 
 };
 
+/**
+ * Handler used to get topics
+ * @param request
+ * @param h
+ * @returns {Promise<any>}
+ */
 const getTopics = async  (request, h) => {
 
     return new Promise((resolve) => {
@@ -52,6 +94,12 @@ const getTopics = async  (request, h) => {
 
 };
 
+/**
+ * Handler used to get a particular topic
+ * @param request
+ * @param h
+ * @returns {Promise<any>}
+ */
 const getTopic = async (request, h) => {
 
     return new Promise((resolve) => {
@@ -60,6 +108,12 @@ const getTopic = async (request, h) => {
     });
 };
 
+/**
+ * Handler used to upvote topic
+ * @param request
+ * @param h
+ * @returns {Promise<any>}
+ */
 const upVoteTopic = async (request, h) => {
 
     return new Promise((resolve) => {
@@ -68,6 +122,12 @@ const upVoteTopic = async (request, h) => {
     });
 };
 
+/**
+ * Handler used to downvote Topic
+ * @param request
+ * @param h
+ * @returns {Promise<any>}
+ */
 const downVoteTopic = async (request, h) => {
 
     return new Promise((resolve) => {
@@ -77,7 +137,6 @@ const downVoteTopic = async (request, h) => {
 };
 
 module.exports = {
-
     createTopic,
     getTopics,
     getTopic,
