@@ -88,6 +88,11 @@ class AddTopicContainer extends Component {
             return;
         }
 
+        if (this.state.topic.length === 0) {
+            alert("Topic length should be at least 1");
+            return;
+        }
+
         this.setState({submitDisabled: true});
 
         let data = {
@@ -95,6 +100,7 @@ class AddTopicContainer extends Component {
         };
 
         createNewTopic(data, (err) => {
+
             this.setState({submitDisabled: false});
             if(err !== null) {
                 alert("Some error");

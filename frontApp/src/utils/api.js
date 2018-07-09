@@ -13,7 +13,7 @@ export const getTopics = (start = 1, limit = 20, callback) => {
             return callback(null, response.data);
         })
         .catch((err) => {
-            return callback(err, null);
+            return callback(err, []);
         });
 };
 
