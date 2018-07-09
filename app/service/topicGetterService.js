@@ -3,6 +3,24 @@
  */
 
 const TopicDao = require('../dao/TopicDao');
+const DataTypes = require('../constants/dataType');
+
+/**
+ * Call back handler for topic getter service
+ * @param callback
+ * @returns {Function}
+ */
+const handleGetterCallback = (callback) => {
+
+    return (err, data) => {
+
+        if(err !== null || err) {
+            return callback(err);
+        }
+
+        return callback(err, {dataType: DataTypes.DATA_RETRIEVED, data: data});
+    }
+};
 
 /**
  *
@@ -13,7 +31,7 @@ const TopicDao = require('../dao/TopicDao');
  */
 const getTopics = (start = 1, limit = 20, callback) => {
 
-    TopicDao.getTopics(start, limit, callback);
+    TopicDao.getTopics(start, limit, handleGetterCallback(callback));
 };
 
 /**
@@ -24,7 +42,7 @@ const getTopics = (start = 1, limit = 20, callback) => {
  */
 const getTopic = (topicId, callback) => {
 
-    TopicDao.getTopic(topicId, callback);
+    TopicDao.getTopic(topicId, handleGetterCallback(callback));
 };
 
 module.exports = {
