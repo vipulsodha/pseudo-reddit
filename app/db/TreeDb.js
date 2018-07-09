@@ -48,7 +48,7 @@ TreeDb.prototype.add = function(node) {
         this.dataMap[node.topicId] = node;
     }
 
-    this.root = insert(this.root, node);
+    this.root = insertAndBalance(this.root, node);
 
     increaseDataCount(this);
 };
@@ -121,7 +121,6 @@ TreeDb.prototype.increaseUpVote = function (topicId) {
     node.left = null;
 
     this.add(node);
-
 };
 
 TreeDb.prototype.increaseDownVote = function (topicId) {
@@ -130,12 +129,10 @@ TreeDb.prototype.increaseDownVote = function (topicId) {
 
     if (node === null) {
         // TODO: error
-
         return;
     }
 
     node.downVotes++;
-
 };
 
 /**
@@ -149,16 +146,29 @@ TreeDb.prototype.getRangeItems = function (start = 1, limit = 20) {
     return getRangeItems(this.root, start, limit);
 };
 
+/**
+ *
+ * @param this_
+ */
 const increaseDataCount = (this_) => {
 
     this_.dataCount = this_.dataCount + 1;
 };
 
+/**
+ *
+ * @param this_
+ */
 const decreaseDataCount = (this_) => {
 
     this_.dataCount = this_.dataCount - 1;
 };
 
+/**
+ *
+ * @param topicId
+ * @param dataMap
+ */
 const deleteFromDataMap = (topicId, dataMap) => {
 
     if(topicId in dataMap) {
@@ -168,7 +178,14 @@ const deleteFromDataMap = (topicId, dataMap) => {
     }
 };
 
-
+/**
+ * Call this function to get range of topics from start to limit in decending order
+ *
+ * @param {DbNode} root
+ * @param {int} start
+ * @param {int} limit
+ * @return {Array.<DbNodes>}
+ */
 const getRangeItems = (root, start = 0, limit = 20) => {
 
     const topics = [];
@@ -324,22 +341,107 @@ const search = (topicId, dataMap) => {
 const insert = (root, node) => {
 
     if (root === null) {
-
         return node;
     }
 
     if (root.upVotes > node.upVotes) {
 
         root.left = insert(root.left, node);
-
     } else {
 
         root.right = insert(root.right, node);
-
     }
 
     return root;
 };
+
+/**
+ *
+ * @param {DbNode} root
+ * @param {DbNode} node
+ * @return {DbNode}
+ */
+const insertAndBalance = (root, node) => {
+
+    if (root == null) {
+        return node;
+    }
+
+    if (node.upVotes < root.upVotes) {
+
+        root.left = insertAndBalance(root.left, node);
+
+    } else {
+
+        root.right = insertAndBalance(root.right, node);
+    }
+
+    root.ht = Math.max(ht(node.left), ht(node.right)) + 1;
+
+    let balanceFactor = ht(root.left) - ht(root.right);
+
+    // left left
+    if (balanceFactor > 1 && root.left !== null && root.upVotes > node.upVotes) {
+            return rightRotate(root);
+    }
+
+    // right right
+    if(balanceFactor < -1 && root.right !== null && root.upVotes <= node.upVotes) {
+        return leftRotate(root);
+    }
+
+    //left right
+    if(balanceFactor > 1 && root.left !== null && root.upVotes <= node.upVotes) {
+
+        root.left = leftRotate(root.left);
+        return rightRotate(root);
+
+    }
+
+    // right left
+    if(balanceFactor < -1 && root.right !== null && root.upVotes > node.upVotes) {
+
+        root.right = rightRotate(root.right);
+        return leftRotate(root);
+    }
+
+    return root;
+};
+
+
+const leftRotate = (root) => {
+
+    let rightNode = root.right;
+
+    root.right = rightNode.left;
+
+    rightNode.left = root;
+
+    return rightNode;
+
+};
+
+const rightRotate = (root) => {
+
+    let leftNode = root.left;
+
+    root.left = leftNode.right;
+
+    leftNode.right = root;
+
+    return leftNode;
+
+};
+
+const ht = (node) => {
+
+    if (node === null) {
+        return 0;
+    }
+
+    return node.ht;
+};
+
 
 const iterativeInsert = (node, value) => {
 

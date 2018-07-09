@@ -13,6 +13,7 @@ const DbNode = function(title, author, upVotes, downVotes, createdTimeStamp, top
     this.topicId = topicId;
     this.right = null;
     this.left = null;
+    this.ht = 0;
 };
 
 module.exports = DbNode;
