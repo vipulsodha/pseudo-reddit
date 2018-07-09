@@ -5,6 +5,11 @@
 const handlers = require('../handlers/apiHandlers');
 const validations = require('./validations/validations');
 
+/**
+ * This module contains all the api configs, docs, validations and handlers.
+ *
+ * @type {{createTopic: {description: string, tags: string[], notes: string[], validate: {payload}, handler: createTopic}, getTopics: {description: string, tags: string[], notes: string[], validate: {query}, handler: getTopics}, getTopic: {description: string, tags: string[], notes: string[], validate: {params}, handler: getTopic}, upVoteTopic: {description: string, tags: string[], notes: string[], validate: {params}, handler: upVoteTopic}, downVoteTopic: {description: string, tags: string[], notes: string[], validate: {params}, handler: downVoteTopic}}}
+ */
 module.exports = {
 
     createTopic: {

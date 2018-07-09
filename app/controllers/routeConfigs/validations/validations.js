@@ -26,12 +26,21 @@ const downVoteTopicParam = {
     topicId: Joi.number().integer().min(1).required()
 };
 
+const createSchema =  (v, o)  => {
+
+    return Joi.object(v).options(o)
+};
+
+const options = {
+    abortEarly: false
+}
+
 module.exports = {
-    createTopicPayload,
-    getTopicsQuery,
-    getTopicParam,
-    upVoteTopicParam,
-    downVoteTopicParam
+    createTopicPayload: createSchema(createTopicPayload, options),
+    getTopicsQuery: createSchema(getTopicsQuery, options),
+    getTopicParam: createSchema(getTopicParam, options),
+    upVoteTopicParam: createSchema(upVoteTopicParam, options),
+    downVoteTopicParam: createSchema(downVoteTopicParam, options)
 };
 
 
