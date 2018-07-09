@@ -301,6 +301,33 @@ const deleteNode = function(root, topicId, upVotes) {
         deletedNode.right = root.right;
         root = deletedNode;
 
+        root.ht = Math.max(ht(root.left), ht(root.right)) + 1;
+
+        let balanceFactor = bf(root);
+
+        // Left left
+        if (balanceFactor > 1 && root.left !== null && bf(root.left) >= 0) {
+            return rightRotate(root);
+        }
+
+        // right right
+        if(balanceFactor < -1 && root.right !== null && bf(root.right) <= 0) {
+            return rightRotate(root);
+        }
+
+        // Left right
+        if (balanceFactor > 1 && root.left !== null && bf(root.left) < 0) {
+
+            root.left = leftRotate(root.left);
+            return rightRotate(root);
+        }
+
+        // right left
+        if(balanceFactor < -1 && root.right !== null && bf(root.right) > 0) {
+            root.right = rightRotate(root);
+            return leftRotate(root);
+        }
+
     } else {
 
         if(root.upVotes > upVotes) {
@@ -440,6 +467,12 @@ const ht = (node) => {
     }
 
     return node.ht;
+};
+
+
+const bf = (root) => {
+
+    return ht(root.left) - ht(root.right);
 };
 
 
