@@ -20,15 +20,25 @@ const callbackHandler = (h, resolve) => {
         if (err != null || err) {
 
             switch (err.errorType) {
+
                 case ErrorTypes.SYSTEM_ERROR:
 
-                    resolve(h.response(err.message).code(500));
+                    resolve(h.response(err).code(500));
                     break;
 
                 case ErrorTypes.USER_ERROR:
-                    resolve(h.response(err.message).code(422));
+
+                    resolve(h.response(err).code(422));
                     break;
+
+                case ErrorTypes.RESOURCE_NOT_FOUND:
+
+                        resolve(h.response(err).code(404));
+
+                    break;
+
                 default:
+
                     resolve(h.response('Something went Wrong :(').code(500));
                     break;
             }

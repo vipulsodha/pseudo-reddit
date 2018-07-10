@@ -65,7 +65,7 @@ const getTopic = (topicId, callback)  => {
     let topic = DB.search(topicId);
 
     if (topic === null) {
-        return callback(null, topic);
+        return callback(Errors.resourceNotFound);
     }
 
     return callback(null, mapDbNodeToTopic(topic));
