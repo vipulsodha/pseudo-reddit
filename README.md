@@ -1,7 +1,7 @@
 # pseudo-reddit
 
 - Hosted  : [pseudo-reddit](http://vipulsodha.me/reddit)
-- API Docs : [api-docs](http://vipulsodha.me:3000/documentation)
+- API Docs : [api-docs](http://vipulsodha.me/reddit/documentation)
 
 **A simpler version of reddit with features such as :**
 - Topic Posting
