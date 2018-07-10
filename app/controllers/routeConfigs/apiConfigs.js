@@ -6,6 +6,7 @@ const handlers = require('../handlers/apiHandlers');
 const validations = require('./validations/validations');
 
 const failAction =async (req, h, err) => {
+    console.error(err);
     throw err;
 };
 

@@ -48,7 +48,7 @@ const insertNewTopic = (topic, callback)  => {
         DB.add(mapTopicToDbNode(topic));
 
     } catch (e) {
-
+        console.error(e, topic);
         return callback(Errors.cannotAddNewTopic);
     }
 
@@ -102,6 +102,7 @@ const deleteTopic = (topicId, callback)  => {
     try {
         DB.delete(topicId);
     } catch (e) {
+        console.error(e, topicId);
         return callback(Errors.cannotDeleteGivenTopic);
     }
     return callback(null);
@@ -117,6 +118,7 @@ const upVoteTopic = (topicId, callback)  => {
     try {
         DB.increaseUpVote(topicId);
     } catch (e) {
+        console.error(e, topicId);
         return callback(Errors.cannotChangeVote);
     }
 
@@ -133,6 +135,7 @@ const downVoteTopic = (topicId, callback)  => {
     try {
         DB.increaseDownVote(topicId);
     } catch (e) {
+        console.error(e, topicId);
         return callback(Errors.cannotChangeVote);
     }
 

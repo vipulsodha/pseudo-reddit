@@ -42,7 +42,7 @@ TreeDb.prototype.add = function(node) {
 
     if(node.topicId in this.dataMap) {
 
-        throw new Error(Errors.cannotAddAlreadyExists);
+        throw new Error(Errors.cannotAddAlreadyExists.message);
 
     } else {
 
@@ -72,7 +72,7 @@ TreeDb.prototype.delete  = function(topicId) {
     let node = this.search(topicId);
 
     if(node === null) {
-        throw new Error(Errors.recordDoesNotExist);
+        throw new Error(Errors.recordDoesNotExist.message);
     }
 
     this.root = deleteNode(this.root, topicId, node.upVotes);
@@ -103,7 +103,7 @@ TreeDb.prototype.increaseUpVote = function (topicId) {
     let node = this.search(topicId);
 
     if (node === null) {
-        throw new Error(Errors.recordDoesNotExist);
+        throw new Error(Errors.recordDoesNotExist.message);
     }
 
     this.delete(topicId);
@@ -120,7 +120,7 @@ TreeDb.prototype.increaseDownVote = function (topicId) {
     let node = this.search(topicId);
 
     if (node === null) {
-        throw new Error(Errors.recordDoesNotExist);
+        throw new Error(Errors.recordDoesNotExist.message);
 
     }
 
