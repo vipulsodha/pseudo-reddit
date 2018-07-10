@@ -31,7 +31,6 @@ const TreeDb = function () {
 
     this.root = null;
     this.dataMap = {};
-    this.dataCount = 0;
 };
 
 /**
@@ -51,8 +50,6 @@ TreeDb.prototype.add = function(node) {
     }
 
     this.root = insertAndBalance(this.root, node);
-
-    increaseDataCount(this);
 };
 
 /**
@@ -63,15 +60,6 @@ TreeDb.prototype.add = function(node) {
 TreeDb.prototype.search  = function(topicId) {
 
     return search(topicId, this.dataMap);
-};
-
-/**
- * Returns the count of topics available
- * @return {number}
- */
-TreeDb.prototype.getCount  = function() {
-
-    return this.dataCount;
 };
 
 /**
@@ -88,8 +76,6 @@ TreeDb.prototype.delete  = function(topicId) {
     }
 
     this.root = deleteNode(this.root, topicId, node.upVotes);
-
-    decreaseDataCount(this);
 
     deleteFromDataMap(topicId, this.dataMap);
 
@@ -199,24 +185,6 @@ const getRangeItems = (root, start = 0, limit = 20) => {
     }
 
     return topics;
-};
-
-/**
- * @private
- * @param this_
- */
-const increaseDataCount = (this_) => {
-
-    this_.dataCount = this_.dataCount + 1;
-};
-
-/**
- * @private
- * @param this_
- */
-const decreaseDataCount = (this_) => {
-
-    this_.dataCount = this_.dataCount - 1;
 };
 
 /**

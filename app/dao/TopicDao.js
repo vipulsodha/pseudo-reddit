@@ -139,17 +139,11 @@ const downVoteTopic = (topicId, callback)  => {
     return callback(null);
 };
 
-const getTotalTopicCount = (callback) => {
-
-  return DB.getCount();
-};
-
 module.exports = {
     insertNewTopic,
     getTopic,
     getTopics,
     deleteTopic,
     upVoteTopic,
-    downVoteTopic,
-    getTotalTopicCount
+    downVoteTopic
 };

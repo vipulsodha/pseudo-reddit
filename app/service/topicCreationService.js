@@ -1,15 +1,19 @@
 /**
  * Created by vipulsodha on 07/07/18.
  */
+const uuid = require('uuid');
 
 const TopicDao = require('../dao/TopicDao');
 const Topic = require('../entities/Topic');
 const DataTypes = require('../constants/dataType');
 
-const getNewTopicId =  (count) => {
+/**
+ * @private
+ * @returns {UUID}
+ */
+const getNewTopicId =  () => {
 
-    count = count + 1;
-    return count;
+    return uuid();
 };
 
 /**
@@ -37,7 +41,7 @@ const handleCreationCallback = (callback) => {
  */
 const createNewTopic = ({title, author}, callback) => {
 
-    const newTopicId = getNewTopicId(TopicDao.getTotalTopicCount());
+    const newTopicId = getNewTopicId();
 
     const topic = new Topic(title, author, 0, 0, new Date().getTime(), newTopicId);
 
