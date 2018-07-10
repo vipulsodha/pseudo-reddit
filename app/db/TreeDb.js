@@ -153,42 +153,12 @@ TreeDb.prototype.getRangeItems = function (start = 1, limit = 20) {
 };
 
 /**
- *
- * @param this_
- */
-const increaseDataCount = (this_) => {
-
-    this_.dataCount = this_.dataCount + 1;
-};
-
-/**
- *
- * @param this_
- */
-const decreaseDataCount = (this_) => {
-
-    this_.dataCount = this_.dataCount - 1;
-};
-
-/**
- *
- * @param topicId
- * @param dataMap
- */
-const deleteFromDataMap = (topicId, dataMap) => {
-
-    if(topicId in dataMap) {
-        delete dataMap[topicId];
-    }
-};
-
-/**
  * Call this function to get range of topics from start to limit in decending order
  *
  * @param {DbNode} root
  * @param {int} start
  * @param {int} limit
- * @return {Array.<DbNodes>}
+ * @return {Array.<DbNode>}
  */
 const getRangeItems = (root, start = 0, limit = 20) => {
 
@@ -232,39 +202,33 @@ const getRangeItems = (root, start = 0, limit = 20) => {
 };
 
 /**
- * This function is used to delete the smallest node on the
- * right of the node to be delete and return the node to reuse it instead of creating new
- * @param node
- * @param parent
- * @return {Object}
+ * @private
+ * @param this_
  */
-const deleteAndGetMin = (node, parent) => {
+const increaseDataCount = (this_) => {
 
-    //TODO: fix me, some edge case I guess
-
-    if(node.left == null) {
-        parent.right = node.right;
-        return node;
-    }
-
-    while (node.left !== null) {
-
-        parent = node;
-        node = node.left;
-    }
-
-    parent.left = node.right;
-
-    return node;
+    this_.dataCount = this_.dataCount + 1;
 };
 
-const getMin = (node) => {
+/**
+ * @private
+ * @param this_
+ */
+const decreaseDataCount = (this_) => {
 
-    while (node.left !== null) {
-        node = node.left;
+    this_.dataCount = this_.dataCount - 1;
+};
+
+/**
+ *
+ * @param topicId
+ * @param dataMap
+ */
+const deleteFromDataMap = (topicId, dataMap) => {
+
+    if(topicId in dataMap) {
+        delete dataMap[topicId];
     }
-
-    return node;
 };
 
 /**
@@ -346,6 +310,47 @@ const deleteNode = function(root, topicId, upVotes) {
 };
 
 /**
+ * This function is used to delete the smallest node on the
+ * right of the node to be delete and return the node to reuse it instead of creating new
+ * @param node
+ * @param parent
+ * @return {Object}
+ */
+const deleteAndGetMin = (node, parent) => {
+
+    //TODO: fix me, some edge case I guess
+
+    if(node.left == null) {
+        parent.right = node.right;
+        return node;
+    }
+
+    while (node.left !== null) {
+
+        parent = node;
+        node = node.left;
+    }
+
+    parent.left = node.right;
+
+    return node;
+};
+
+/**
+ * @private
+ * @param {} node
+ * @returns {DbNode}
+ */
+const getMin = (node) => {
+
+    while (node.left !== null) {
+        node = node.left;
+    }
+
+    return node;
+};
+
+/**
  * Function used to search a topicId in the tree using recursion
  * @param {int} topicId
  * @return {DbNode}
@@ -357,11 +362,10 @@ const search = (topicId, dataMap) => {
     }
 
     return null;
-
 };
 
 /**
- * Function used to insert node in the tree using recursion
+ * Function used to insert node in the tree using recursion, not balanced insertion
  * @private
  * @param {DbNode} root
  * @param {DbNode} node
@@ -452,7 +456,6 @@ const leftRotate = (root) => {
     rightNode.left = root;
 
     return rightNode;
-
 };
 
 /**
@@ -469,7 +472,6 @@ const rightRotate = (root) => {
     leftNode.right = root;
 
     return leftNode;
-
 };
 
 /**
