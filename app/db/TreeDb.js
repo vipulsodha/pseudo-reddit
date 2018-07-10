@@ -265,7 +265,6 @@ const getMin = (node) => {
     }
 
     return node;
-
 };
 
 /**
@@ -386,7 +385,7 @@ const insert = (root, node) => {
 };
 
 /**
- *
+ * @private
  * @param {DbNode} root
  * @param {DbNode} node
  * @return {DbNode}
@@ -439,6 +438,11 @@ const insertAndBalance = (root, node) => {
 };
 
 
+/**
+ * @private
+ * @param {DbNode} root
+ * @returns {DbNode}
+ */
 const leftRotate = (root) => {
 
     let rightNode = root.right;
@@ -451,6 +455,11 @@ const leftRotate = (root) => {
 
 };
 
+/**
+ * @private
+ * @param {DbNode} root
+ * @returns {*}
+ */
 const rightRotate = (root) => {
 
     let leftNode = root.left;
@@ -463,6 +472,11 @@ const rightRotate = (root) => {
 
 };
 
+/**
+ * @private
+ * @param {DbNode} node
+ * @returns {DbNode}
+ */
 const ht = (node) => {
 
     if (node === null) {
@@ -472,12 +486,15 @@ const ht = (node) => {
     return node.ht;
 };
 
-
+/**
+ * @private
+ * @param {DbNode} root
+ * @returns {number}
+ */
 const bf = (root) => {
 
     return ht(root.left) - ht(root.right);
 };
-
 
 const iterativeInsert = (node, value) => {
 
