@@ -11,7 +11,8 @@ API Docs : [api-docs](http://vipulsodha.me:3000/documentation)
 ## To run
   - `npm install`
   - `npm run start`
-  - By default it will run on localhost port 3000, you can set `env.PORT` and `env.HOST` to configure it.
+  - By default it will run on localhost port 3000, you can set `env.PORT` and `env.HOST` to configure it
+  - To build docker image: `docker build -t <TAG> .`
   
 ## Description
   - It uses inmemory datastructure to store all the post.
