@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
     "dev-server": "webpack-dev-server",
-    "start": "npm run build && node app.js"
+    "start": "npm run build && node app.js",
+    "test": "mocha ./test/*.test.js",
+    "coverage": "nyc --reporter=html --reporter=text mocha ./test/*.test.js"
   },
   "repository": {
     "type": "git",
@@ -42,7 +44,11 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
+    "chai": "^4.1.2",
     "html-webpack-plugin": "^3.2.0",
+    "mocha": "^5.2.0",
+    "nyc": "^12.0.2",
+    "supertest": "^3.1.0",
     "webpack": "^4.15.1",
     "webpack-cli": "^3.0.8",
     "webpack-dev-server": "^3.1.4"
