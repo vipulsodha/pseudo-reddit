@@ -52,7 +52,7 @@ const insertNewTopic = (topic, callback)  => {
         return callback(Errors.cannotAddNewTopic);
     }
 
-    return callback(null);
+    return callback(null, topic);
 };
 
 /**
