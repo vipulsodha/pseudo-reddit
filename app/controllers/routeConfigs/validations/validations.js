@@ -15,15 +15,15 @@ const getTopicsQuery = {
 };
 
 const getTopicParam = {
-    topicId: Joi.string().required()
+    topicId: Joi.string().guid().required()
 };
 
 const upVoteTopicParam = {
-    topicId: Joi.string().required()
+    topicId: Joi.string().guid().required()
 };
 
 const downVoteTopicParam = {
-    topicId: Joi.string().required()
+    topicId: Joi.string().guid().required()
 };
 
 const createSchema =  (v, o)  => {

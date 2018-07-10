@@ -5,6 +5,10 @@
 const handlers = require('../handlers/apiHandlers');
 const validations = require('./validations/validations');
 
+const failAction =async (req, h, err) => {
+    throw err;
+};
+
 /**
  * This module contains all the api configs, docs, validations and handlers.
  *
@@ -17,6 +21,7 @@ module.exports = {
         tags: ['api'],
         notes:['Creates topic and returns topic id'],
         validate: {
+            failAction:failAction,
             payload: validations.createTopicPayload
         },
         handler: handlers.createTopic
@@ -26,6 +31,7 @@ module.exports = {
         tags: ['api'],
         notes:['Need to pass start and limit as query parameters for getting list of topics, else default will return top 20'],
         validate: {
+            failAction:failAction,
             query: validations.getTopicsQuery
         },
         handler: handlers.getTopics
@@ -35,6 +41,7 @@ module.exports = {
         tags: ['api'],
         notes:['Need to pass the topic id as path param'],
         validate: {
+            failAction:failAction,
             params: validations.getTopicParam
         },
         handler: handlers.getTopic
@@ -44,6 +51,7 @@ module.exports = {
         tags: ['api'],
         notes:['Need to pass topic id as path param'],
         validate: {
+            failAction:failAction,
             params: validations.getTopicParam
         },
         handler: handlers.upVoteTopic
@@ -53,6 +61,7 @@ module.exports = {
         tags: ['api'],
         notes:['Need to pass topic id as path param'],
         validate: {
+            failAction:failAction,
             params: validations.getTopicParam
         },
         handler: handlers.downVoteTopic
