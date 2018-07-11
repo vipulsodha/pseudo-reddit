@@ -14,6 +14,7 @@
   - By default it will run on localhost port 3000, you can set `env.PORT` and `env.HOST` to configure it
   - To build docker image: `docker build -t <TAG> .`
   - To test `npm test`
+  - For coverage `npm run coverage`
   
 ## Description
   - It uses inmemory datastructure to store all the post.
