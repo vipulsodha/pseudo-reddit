@@ -1,4 +1,5 @@
 # pseudo-reddit
+[![Build Status](https://travis-ci.org/vipulsodha/pseudo-reddit.svg?branch=master)](https://travis-ci.org/vipulsodha/pseudo-reddit)
 
 - Hosted  : [pseudo-reddit](http://vipulsodha.me/reddit)
 - API Docs : [api-docs](http://vipulsodha.me/reddit/documentation)
